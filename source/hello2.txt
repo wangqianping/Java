@@ -1,3 +1,0 @@
-hello world
-文件IO流太简单了
-文件IO流太简单了
