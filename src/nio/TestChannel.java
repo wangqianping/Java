@@ -3,6 +3,7 @@ package nio;
 import org.junit.Test;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -88,6 +89,36 @@ public class TestChannel {
 
         inChannel.close();
         outChannel.close();
+
+    }
+
+    @Test
+    public void test4() throws Exception {
+        //分散读取与聚集写入
+        FileInputStream fis = new FileInputStream("source/hello.txt");
+        FileOutputStream fos = new FileOutputStream("source/hello3.txt");
+
+        FileChannel fisChannel = fis.getChannel();
+        FileChannel fosChannel = fos.getChannel();
+
+
+        ByteBuffer[] byteBuffers = new ByteBuffer[]{ByteBuffer.allocate(10),ByteBuffer.allocate(1024)};
+        fisChannel.read(byteBuffers);
+
+        for(ByteBuffer byteBuffer:byteBuffers){
+            byteBuffer.flip();
+        }
+
+        System.out.println(new String(byteBuffers[0].array(),0,byteBuffers[0].limit()));
+        System.out.println(new String(byteBuffers[1].array(),0,byteBuffers[1].limit()));
+
+        //聚集写出
+        fosChannel.write(byteBuffers);
+
+        fisChannel.close();
+        fosChannel.close();
+        fis.close();
+        fos.close();
 
     }
 
