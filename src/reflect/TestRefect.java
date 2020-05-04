@@ -2,9 +2,14 @@ package reflect;
 
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Properties;
 
 public class TestRefect {
 
@@ -37,8 +42,46 @@ public class TestRefect {
         age1.set(person,23);
         System.out.println(person);
 
+    }
+
+    @Test
+    public void creatClass() throws ClassNotFoundException {
+        //方式一：通过类名
+        Class c1 = Person.class;
+        //方式二：通过实例对象
+        Class c2 = new Person().getClass();
+        //方式三:通过路径名
+        Class c3 = Class.forName("reflect.Person");
+        //方式四：通过类加载器获取
+        ClassLoader classLoader = TestRefect.class.getClassLoader();
+        Class<?> c4 = classLoader.loadClass("reflect.Person");
+
+        System.out.println(c1==c2);
+        System.out.println(c2==c3);
+        System.out.println(c3==c4);//表明Class对象在内存中只有一个
 
     }
 
+    @Test
+    public void readPropertis() throws Exception {
+
+        Properties pos = new Properties();
+
+        //方式一：通过流的方式
+//        FileInputStream fileInputStream = new FileInputStream("src/reflect/jdbc.properties");
+
+        //方式二：通过类加载器
+        ClassLoader classLoader = TestRefect.class.getClassLoader();
+        InputStream fileInputStream = classLoader.getResourceAsStream("reflect/jdbc.properties");
+
+        pos.load(fileInputStream);
+        String user = pos.getProperty("user");
+        String password = pos.getProperty("password");
+
+        System.out.println("user="+user);
+        System.out.println("password="+password);
+
+
+    }
 
 }
