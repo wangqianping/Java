@@ -2,9 +2,6 @@ package reflect;
 
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -83,5 +80,12 @@ public class TestRefect {
 
 
     }
+
+    @Test
+    public void getInstance(){
+        //通过反射创建运行时对象
+
+    }
+
 
 }
