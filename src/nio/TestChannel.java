@@ -3,12 +3,16 @@ package nio;
 import org.junit.Test;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
@@ -119,6 +123,33 @@ public class TestChannel {
         fosChannel.close();
         fis.close();
         fos.close();
+
+    }
+
+    @Test
+    public void test5() throws Exception {
+        //字符集，编码与解码
+        Charset charset = Charset.forName("GBK");
+        //编码器
+        CharsetEncoder encoder = charset.newEncoder();
+        //解码器
+        CharsetDecoder decoder = charset.newDecoder();
+
+        CharBuffer charBuffer = CharBuffer.allocate(1024);
+        charBuffer.put("你好中国");
+        charBuffer.flip();
+
+        //编码
+        ByteBuffer byteBuffer = encoder.encode(charBuffer);
+        for(int i=0;i<8;i++){
+            System.out.println(byteBuffer.get());
+        }
+
+        //解码
+        byteBuffer.flip();
+        CharBuffer charBuffer1 = decoder.decode(byteBuffer);
+        System.out.println(charBuffer1.toString());
+
 
     }
 
