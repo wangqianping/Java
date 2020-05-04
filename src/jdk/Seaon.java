@@ -1,4 +1,4 @@
-package jdk8;
+package jdk;
 
 public enum Seaon {
 
