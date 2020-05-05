@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Properties;
+import java.util.Random;
 
 public class TestRefect {
 
@@ -28,7 +29,7 @@ public class TestRefect {
         Method print = clazz.getMethod("print");
         print.invoke(person);
         Method getAge = clazz.getMethod("getAge");
-        int age =(int) getAge.invoke(person);
+        int age = (int) getAge.invoke(person);
         System.out.println(age);
         //调用私有方法
         Method show = clazz.getDeclaredMethod("show");
@@ -36,7 +37,7 @@ public class TestRefect {
         show.invoke(person);
 
         Field age1 = clazz.getDeclaredField("age");
-        age1.set(person,23);
+        age1.set(person, 23);
         System.out.println(person);
 
     }
@@ -53,9 +54,9 @@ public class TestRefect {
         ClassLoader classLoader = TestRefect.class.getClassLoader();
         Class<?> c4 = classLoader.loadClass("reflect.Person");
 
-        System.out.println(c1==c2);
-        System.out.println(c2==c3);
-        System.out.println(c3==c4);//表明Class对象在内存中只有一个
+        System.out.println(c1 == c2);//true
+        System.out.println(c2 == c3);//true
+        System.out.println(c3 == c4);//表明Class对象在内存中只有一个
 
     }
 
@@ -72,18 +73,41 @@ public class TestRefect {
         InputStream fileInputStream = classLoader.getResourceAsStream("reflect/jdbc.properties");
 
         pos.load(fileInputStream);
+
         String user = pos.getProperty("user");
         String password = pos.getProperty("password");
 
-        System.out.println("user="+user);
-        System.out.println("password="+password);
+        System.out.println("user=" + user);
+        System.out.println("password=" + password);
 
 
     }
 
     @Test
-    public void getInstance(){
-        //通过反射创建运行时对象
+    public void getInstance() throws ClassNotFoundException {
+        //通过反射创建运行时对象：
+        //有一些业务场景必须在运行的时候程序才知道具体要创建什么对象，编译的时候不知道，这个称之为创建运行时对象
+        Random random = new Random();
+        int i = random.nextInt(2);
+        String str=null;
+
+        switch (i) {
+            case 0:
+                str = "java.lang.String";
+                break;
+            case 1:
+                str = "java.util.Properties";
+                break;
+            case 2:
+                str = "java.util.Random";
+                break;
+            default:
+                break;
+        }
+
+        ClassLoader classLoader = TestRefect.class.getClassLoader();
+        Class<?> c4 = classLoader.loadClass(str);
+        System.out.println(c4.toString());
 
     }
 
