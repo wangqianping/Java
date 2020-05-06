@@ -2,6 +2,8 @@ package thread;
 
 import org.junit.Test;
 
+import java.util.concurrent.*;
+
 /**
  * 两种线程方式的创建对比
  * 继承不仅增加了耦合度同时该类也无法继承其他类了，单继承原则
@@ -32,6 +34,18 @@ class YourThread implements Runnable {
             }
         }
 
+    }
+}
+
+class HisThread implements Callable<Integer>{
+
+    @Override
+    public Integer call() throws Exception {
+        int sum = 0;
+        for (int i = 0; i <50 ; i++) {
+               sum+=i;
+        }
+        return sum;
     }
 }
 
@@ -74,6 +88,30 @@ public class TestThread {
         t2.start();
         t3.start();
 
+    }
+
+    @Test
+    public void test3() throws ExecutionException, InterruptedException {
+
+        HisThread hisThread = new HisThread();
+        FutureTask futureTask = new FutureTask(hisThread);
+        Thread thread1 = new Thread(futureTask);
+        thread1.start();
+
+        //获取返回值,这个根据实际需求看需不需要获取，线程的主要步骤在上面
+        Object o = futureTask.get();
+        System.out.println(o);
+
+    }
+
+    @Test
+    public void test4() throws ExecutionException, InterruptedException {
+        //通过线程池的方式创建线程
+        ExecutorService service = Executors.newFixedThreadPool(10);
+        service.execute(new YourThread());
+        Future<Integer> future = service.submit(new HisThread());
+        System.out.println("结果："+future.get());
+        service.shutdown();
     }
 
 }
