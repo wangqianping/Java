@@ -74,9 +74,6 @@ public class TestThread {
         t2.start();
         t3.start();
 
-
     }
-
-
 
 }
