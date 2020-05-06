@@ -2,6 +2,9 @@ package thread;
 
 import org.junit.Test;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * 多线程安全问题
  * ex:创建三个窗口进行买票
@@ -24,6 +27,9 @@ import org.junit.Test;
  *
  * 方式二：同步方法
  * 将操作共享数据的代码块封装成一个方法直接在定义的时候加上synchronized
+ *
+ *
+ * 方式三：通过Lock
  *
  * 同步方式很好的解决了线程安全的问题但是在效率上有一定的损耗
  *
@@ -67,19 +73,34 @@ public class TestSynchronized {
         t3.start();
     }
 
+    @Test
+    public void test3(){
+
+        Desk desk = new Desk();
+        Thread t1 = new Thread(desk);
+        Thread t2 = new Thread(desk);
+        Thread t3 = new Thread(desk);
+
+        t1.setName("窗口1");
+        t2.setName("窗口2");
+        t3.setName("窗口3");
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+
 }
 
 
 class Window implements Runnable {
     //总票数，也代表票号
     private int ticket = 100;
-    private Object object = new Object();//充当锁
-
     @Override
     public void run() {
 
         while (true) {
-            synchronized (object){
+            synchronized (this){
                 if (ticket > 0) {
                     System.out.println(Thread.currentThread().getName() + " 卖出了 " + ticket + " 号票");
                     ticket--;
@@ -110,4 +131,32 @@ class Table implements Runnable{
         }
     }
 
+}
+
+class Desk implements Runnable{
+
+    //总票数，也代表票号
+    private int ticket = 100;
+
+    ReentrantLock reentrantLock = new ReentrantLock();
+
+    @Override
+    public void run() {
+
+        while (true) {
+            reentrantLock.lock();
+            try {
+                if (ticket > 0) {
+                    System.out.println(Thread.currentThread().getName() + " 卖出了 " + ticket + " 号票");
+                    ticket--;
+                } else {
+                    break;
+                }
+            } finally {
+                reentrantLock.unlock();
+            }
+
+        }
+
+    }
 }
