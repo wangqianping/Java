@@ -1,7 +1,6 @@
 package thread;
 
 import org.junit.Test;
-
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -23,13 +22,15 @@ import java.util.concurrent.locks.ReentrantLock;
  * 2。操作共享数据的代码，即为需要同步的代码
  * 3。同步监视器俗称锁，任何一个类的对象都可以充当锁，但是必须要求多线程共用同一把锁
  *
- *
  * 方式二：同步方法
+ * public synchronized void method()
+ *
  * 将操作共享数据的代码块封装成一个方法直接在定义的时候加上synchronized
  *
- *
  * 方式三：通过Lock
- *
+ * ReentrantLock lock = new ReetrantLock()
+ * lock.lock() 加锁
+ * lock.unlock() 释放锁
  * 同步方式很好的解决了线程安全的问题但是在效率上有一定的损耗
  *
  *

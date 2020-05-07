@@ -7,7 +7,7 @@ import java.io.*;
  * 1.操作数据单位：字节流和字符流
  * 2.数据的流向：输入流和输出流
  * 3.流的角色：节点流和处理流
- * <p>
+ *
  * 流的体系结构
  * 抽象类           节点流             缓冲流(高级流)
  * InputStream    FileInputStream   BufferInputStream

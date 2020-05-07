@@ -29,6 +29,7 @@ public class TetsBlock {
             byteBuffer.clear();
         }
 
+        //解决阻塞问题
         socketChannel.shutdownOutput();
 
         //接受服务端发送过来的信息

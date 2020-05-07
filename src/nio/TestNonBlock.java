@@ -8,8 +8,10 @@ import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Scanner;
 
+/**
+ * 演示TCP
+ */
 public class TestNonBlock {
 
 

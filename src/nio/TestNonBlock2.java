@@ -9,6 +9,9 @@ import java.nio.channels.*;
 import java.util.Date;
 import java.util.Iterator;
 
+/**
+ * 演示UDP
+ */
 public class TestNonBlock2 {
 
 
