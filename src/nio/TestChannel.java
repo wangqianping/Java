@@ -85,6 +85,7 @@ public class TestChannel {
         MappedByteBuffer inMappedByteBuffer = inChannel.map(FileChannel.MapMode.READ_ONLY, 0, inChannel.size());
         MappedByteBuffer outMappedByteBuffer = outChannel.map(FileChannel.MapMode.READ_WRITE, 0, inChannel.size());
 
+
         //直接对内存中的数据进行操作，不用缓冲区
         byte[] dsc = new byte[inMappedByteBuffer.limit()];
         inMappedByteBuffer.get(dsc);

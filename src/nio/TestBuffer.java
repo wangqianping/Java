@@ -49,7 +49,6 @@ public class TestBuffer {
         System.out.println(byteBuffer.limit());//界限，limit之后的不能读写
         System.out.println(byteBuffer.position());//可操作的位置
 
-
     }
 
     @Test

@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * ArrayList,LinkedList 线程不安去哪
@@ -39,6 +40,8 @@ public class SafeList {
     @Test
     public void test2(){
         List<String> arrayList = new CopyOnWriteArrayList<>();
+        CopyOnWriteArraySet<Object> arraySet = new CopyOnWriteArraySet<>();
+        arraySet.add(1);
         for(int i=1;i<30;i++){
             new Thread(()->{
                 arrayList.add(UUID.randomUUID().toString().substring(1,5));
